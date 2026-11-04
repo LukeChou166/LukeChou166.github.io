@@ -4,3 +4,5 @@ site-src/dist/
 site-src/.astro/
 .DS_Store
 .codebuddy/
+.playwright-cli/
+.playwright-cli/
