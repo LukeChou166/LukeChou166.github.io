@@ -1,0 +1,46 @@
+name: Sync book subtree
+
+on:
+  # 由 claude-code-book 仓库 push 时通过 repository_dispatch 实时触发
+  repository_dispatch:
+    types: [book-update]
+  # 兜底：每小时检查一次书源更新（未配置 PAT 时也能自动同步）
+  schedule:
+    - cron: '23 * * * *'
+  # 支持在 Actions 页面手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Git config
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Pull book subtree
+        id: sync
+        run: |
+          BEFORE=$(git rev-parse HEAD)
+          git subtree pull --prefix=book https://github.com/LukeChou166/claude-code-book.git main --squash || true
+          AFTER=$(git rev-parse HEAD)
+          if [ "$BEFORE" != "$AFTER" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Book updated: $BEFORE -> $AFTER"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "Book already up to date"
+          fi
+
+      - name: Push
+        if: steps.sync.outputs.changed == 'true'
+        run: git push origin master
