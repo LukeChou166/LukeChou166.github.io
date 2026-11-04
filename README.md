@@ -1,41 +1,42 @@
 # luke的个人博客（仓库原名，站点地址 https://lukechou166.github.io ）
 
-个人博客站点（「随笔」），基于 [Hexo](https://hexo.io/) + [hexo-theme-matery](https://github.com/blinkfox/hexo-theme-matery) 主题生成，部署在 GitHub Pages。
+个人博客站点（「随笔」），基于 [Astro](https://astro.build/) + [AstroPaper](https://github.com/satnaing/astro-paper) 主题，部署在 GitHub Pages。
 
-> 本仓库存放的是 **Hexo 构建产物**（生成的 HTML/CSS/JS），不是 Hexo 源码工程。日常发文章请在本地 Hexo 工程中写 Markdown 后 `hexo generate`，把 `public/` 目录内容同步到本仓库。
+> 站点源码在 `site-src/` 目录（Astro 工程）；仓库根目录是 **构建产物**，由 `site-src` 构建后拷贝而来。
+> 旧版博客（Hexo + Matery）完整保存在 `legacy/` 目录，可从导航「历史版本」访问。
 
-## 基于spec开发
-初始化
-```
-specify init --here --force --integration  codebuddy
+## 日常写文章
+
+在 `site-src/src/content/posts/` 下新建 Markdown 文件（frontmatter 参考 `site-src/src/content/pages/about.md` 同级目录下的现有文章），然后构建发布：
+
+```bash
+cd site-src
+npm install        # 首次需要
+npm run build      # astro check + astro build + pagefind 搜索索引
+cp -R dist/. ..    # 把构建产物同步到仓库根目录
+git add -A && git commit -m "publish" && git push origin master
 ```
 
 ## 本地启动
 
-纯静态站点，无需安装依赖，任选一种方式在仓库根目录启动本地服务：
-
 ```bash
-# 方式一：Node.js（推荐）
-npx serve -p 4000
-
-# 方式二：Python
+# 预览整站（新站 + legacy 归档 + book，推荐）
 python3 -m http.server 4000
-```
 
-然后浏览器访问 <http://localhost:4000>。
+# 只调新站源码（热更新）
+cd site-src && npm run dev
+```
 
 ## 目录结构
 
 ```
-├── index.html          # 首页
-├── archives/           # 归档
-├── categories/         # 分类
-├── tags/               # 标签
-├── about/ contact/ friends/  # 关于/评论/友链
-├── css/ js/ libs/      # 样式、脚本、第三方库
-├── medias/             # 图片等静态资源
-├── search.xml          # 站内搜索索引（Hexo 生成）
-└── book/               # 知识分享专栏（嵌入的外部书籍）
+├── index.html posts/ archives/ tags/ about/ search/   # 新站产物（Astro 生成）
+├── _astro/ pagefind/ sitemap*.xml rss.xml robots.txt  # 新站资源与搜索索引
+├── legacy/           # 旧版博客整站归档（Hexo + Matery，只读）
+│   └── book/         # book 的兜底镜像
+├── book/             # 知识分享专栏（Docsify，保持根路径）
+├── site-src/         # Astro 源码工程（内容、主题配置、构建）
+└── specs/            # 基于 spec 的开发文档（001-blog-redesign）
 ```
 
 ## 知识分享专栏（book/）
@@ -88,5 +89,5 @@ git push origin master
 
 ## 导航说明
 
-由于 HTML 是 Hexo 生成的，直接在本仓库改导航时，需要同步修改所有页面
-（`index.html`、`404.html`、`about/`、`archives/`、`categories/`、`contact/`、`friends/`、`tags/`、`2020/` 下所有 HTML）中的桌面导航 `ul.right.nav-menu` 和移动端侧边栏 `ul.mobile-menu-list` 两处。
+新站导航在 `site-src/src/components/Header.astro`（含「知识分享」「历史版本」入口），
+站点信息（标题/作者/链接）在 `site-src/astro-paper.config.ts`。

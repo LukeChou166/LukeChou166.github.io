@@ -1,0 +1,6 @@
+# site-src 构建产物与依赖（部署时只提交 site-src/dist 内容拷贝到根目录后的产物）
+site-src/node_modules/
+site-src/dist/
+site-src/.astro/
+.DS_Store
+.codebuddy/
