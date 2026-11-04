@@ -1,4 +1,4 @@
-# luluyouyue.github.io（仓库原名，站点地址 https://lukechou166.github.io）
+# luke的个人博客（仓库原名，站点地址 https://lukechou166.github.io ）
 
 个人博客站点（「随笔」），基于 [Hexo](https://hexo.io/) + [hexo-theme-matery](https://github.com/blinkfox/hexo-theme-matery) 主题生成，部署在 GitHub Pages。
 
