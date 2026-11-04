@@ -1,0 +1,395 @@
+- generic [active] [ref=f2e1]:
+  - link "跳到正文" [ref=f2e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f2e3]:
+    - generic [ref=f2e4]:
+      - link "随笔" [ref=f2e5] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=f2e6]:
+        - list [ref=f2e7]:
+          - listitem [ref=f2e8]:
+            - link "文章" [ref=f2e9] [cursor=pointer]:
+              - /url: /posts/
+          - listitem [ref=f2e10]:
+            - link "标签" [ref=f2e11] [cursor=pointer]:
+              - /url: /tags/
+          - listitem [ref=f2e12]:
+            - link "关于" [ref=f2e13] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=f2e14]:
+            - link "知识分享" [ref=f2e15] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f2e16]:
+            - link "历史版本" [ref=f2e17] [cursor=pointer]:
+              - /url: /legacy/
+          - listitem [ref=f2e18]:
+            - link "归档" [ref=f2e19] [cursor=pointer]:
+              - /url: /archives/
+          - listitem [ref=f2e24]:
+            - link "搜索" [ref=f2e25] [cursor=pointer]:
+              - /url: /search/
+          - listitem [ref=f2e30]:
+            - button "light" [ref=f2e31] [cursor=pointer]
+  - main [ref=f2e35]:
+    - generic [ref=f2e36]:
+      - complementary [ref=f2e37]:
+        - generic [ref=f2e38]:
+          - paragraph [ref=f2e39]: 书籍
+          - button "Claude Code 深度源码解析 基于 Claude Code 反编译还原源码的深度解析专栏" [ref=f2e41] [cursor=pointer]:
+            - generic [ref=f2e42]: Claude Code 深度源码解析
+            - generic [ref=f2e43]: 基于 Claude Code 反编译还原源码的深度解析专栏
+        - navigation "章节目录" [ref=f2e44]:
+          - link "README" [ref=f2e45] [cursor=pointer]:
+            - /url: "#/claude-code-book/README.md"
+          - link "CODE_INDEX" [ref=f2e46] [cursor=pointer]:
+            - /url: "#/claude-code-book/CODE_INDEX.md"
+          - link "01-architecture-overview" [ref=f2e47] [cursor=pointer]:
+            - /url: "#/claude-code-book/01-architecture-overview.md"
+          - link "01-architecture-overview-code" [ref=f2e48] [cursor=pointer]:
+            - /url: "#/claude-code-book/01-architecture-overview-code.md"
+          - link "02-startup-and-init" [ref=f2e49] [cursor=pointer]:
+            - /url: "#/claude-code-book/02-startup-and-init.md"
+          - link "03-query-engine" [ref=f2e50] [cursor=pointer]:
+            - /url: "#/claude-code-book/03-query-engine.md"
+          - link "04-agentic-loop" [ref=f2e51] [cursor=pointer]:
+            - /url: "#/claude-code-book/04-agentic-loop.md"
+          - link "05-tool-system" [ref=f2e52] [cursor=pointer]:
+            - /url: "#/claude-code-book/05-tool-system.md"
+          - link "05-tool-system-code" [ref=f2e53] [cursor=pointer]:
+            - /url: "#/claude-code-book/05-tool-system-code.md"
+          - link "06-permissions" [ref=f2e54] [cursor=pointer]:
+            - /url: "#/claude-code-book/06-permissions.md"
+          - link "07-task-orchestration" [ref=f2e55] [cursor=pointer]:
+            - /url: "#/claude-code-book/07-task-orchestration.md"
+          - link "08-context-management" [ref=f2e56] [cursor=pointer]:
+            - /url: "#/claude-code-book/08-context-management.md"
+          - link "09-memory-system" [ref=f2e57] [cursor=pointer]:
+            - /url: "#/claude-code-book/09-memory-system.md"
+          - link "10-mcp-integration" [ref=f2e58] [cursor=pointer]:
+            - /url: "#/claude-code-book/10-mcp-integration.md"
+          - link "11-session-persistence" [ref=f2e59] [cursor=pointer]:
+            - /url: "#/claude-code-book/11-session-persistence.md"
+          - link "12-permission-modes" [ref=f2e60] [cursor=pointer]:
+            - /url: "#/claude-code-book/12-permission-modes.md"
+          - link "13-state-management" [ref=f2e61] [cursor=pointer]:
+            - /url: "#/claude-code-book/13-state-management.md"
+          - link "14-error-recovery" [ref=f2e62] [cursor=pointer]:
+            - /url: "#/claude-code-book/14-error-recovery.md"
+          - link "15-security-layers" [ref=f2e63] [cursor=pointer]:
+            - /url: "#/claude-code-book/15-security-layers.md"
+          - link "16-tools-catalog" [ref=f2e64] [cursor=pointer]:
+            - /url: "#/claude-code-book/16-tools-catalog.md"
+      - article [ref=f2e65]:
+        - generic [ref=f2e66]:
+          - heading "04-agentic-loop" [level=1] [ref=f2e67]
+          - link "查看源文件 ↗" [ref=f2e68] [cursor=pointer]:
+            - /url: /book/claude-code-book/04-agentic-loop.md
+        - generic [ref=f2e69]:
+          - heading "第4章 Agentic Loop：智能体核心循环" [level=1] [ref=f2e70]
+          - blockquote [ref=f2e71]:
+            - paragraph [ref=f2e72]:
+              - strong [ref=f2e73]: 前置知识
+              - text: ：第1章整体架构、第3章 QueryEngine
+              - strong [ref=f2e74]: 关键文件
+              - text: ：
+              - code [ref=f2e75]: src/query.ts
+              - text: （约1730行）、
+              - code [ref=f2e76]: src/services/tools/toolOrchestration.ts
+              - text: 、
+              - code [ref=f2e77]: src/services/tools/toolExecution.ts
+          - separator [ref=f2e78]
+          - heading "4.1 解决什么问题" [level=2] [ref=f2e79]
+          - paragraph [ref=f2e80]: 这是整个项目最关键的一章。
+          - paragraph [ref=f2e81]:
+            - strong [ref=f2e82]: Agentic Loop
+            - text: （智能体循环）指的是：AI 不只回答一次，而是
+            - strong [ref=f2e83]: 反复推理 → 行动 → 观察
+            - text: ，直到任务完成。
+          - paragraph [ref=f2e84]: 具体需要解决以下问题：
+          - list [ref=f2e85]:
+            - listitem [ref=f2e86]:
+              - strong [ref=f2e87]: 工具调用的协调
+              - text: ：AI 说"我要同时读三个文件"，这三个读取应该并行还是串行？
+            - listitem [ref=f2e88]:
+              - strong [ref=f2e89]: 中断与恢复
+              - text: ：用户在工具执行中途按 Ctrl+C，如何优雅中止？
+            - listitem [ref=f2e90]:
+              - strong [ref=f2e91]: 错误处理
+              - text: ：工具执行失败时，应该告诉 AI，让 AI 决定如何继续，还是直接报错退出？
+            - listitem [ref=f2e92]:
+              - strong [ref=f2e93]: Token 超限
+              - text: ：当上下文接近模型的 token 上限时，如何自动压缩而不丢失关键信息？
+            - listitem [ref=f2e94]:
+              - strong [ref=f2e95]: 流式模型响应
+              - text: ：Claude API 是流式的，如何在收到部分响应时就开始执行工具？
+            - listitem [ref=f2e96]:
+              - strong [ref=f2e97]: Thinking 模式
+              - text: ：Claude 3.7+ 支持"扩展思考"，其 token 流有特殊规则，如何处理？
+            - listitem [ref=f2e98]:
+              - strong [ref=f2e99]: 降级模型
+              - text: ：当主模型调用失败时，自动切换备用模型并保持一致性。
+          - separator [ref=f2e100]
+          - heading "4.2 业界的做法" [level=2] [ref=f2e101]
+          - paragraph [ref=f2e102]:
+            - strong [ref=f2e103]: OpenAI Assistants API
+            - text: 将 agentic loop 托管在服务端——客户端只需轮询 run 的状态。
+          - list [ref=f2e104]:
+            - listitem [ref=f2e105]: 优点：客户端代码简单
+            - listitem [ref=f2e106]: 缺点：服务端黑盒，工具结果每次都要 round-trip 到服务端（增加延迟）；无法精细控制循环逻辑
+          - paragraph [ref=f2e107]:
+            - strong [ref=f2e108]: ReAct 框架
+            - text: （Reasoning + Acting）通过 prompt 让 AI 输出
+            - code [ref=f2e109]: "Thought:"
+            - text: 、
+            - code [ref=f2e110]: "Action:"
+            - text: 、
+            - code [ref=f2e111]: "Observation:"
+            - text: 文本来"模拟"循环：
+          - list [ref=f2e112]:
+            - listitem [ref=f2e113]: 优点：不需要 Function Calling 支持，任何模型都可用
+            - listitem [ref=f2e114]: 缺点：纯文本协议脆弱，AI 可能随时"偏离格式"；效率低（每个步骤都是一个完整 API 调用）
+          - paragraph [ref=f2e115]:
+            - strong [ref=f2e116]: LangChain AgentExecutor
+            - text: ：
+          - list [ref=f2e117]:
+            - listitem [ref=f2e118]: 优点：抽象层次高，易上手
+            - listitem [ref=f2e119]: 缺点：并发工具执行支持差，错误恢复逻辑简单，不适合复杂生产场景
+          - separator [ref=f2e120]
+          - heading "4.3 本项目的做法：本地驱动的流式循环" [level=2] [ref=f2e121]
+          - paragraph [ref=f2e122]:
+            - code [ref=f2e123]: query.ts
+            - text: 中的
+            - code [ref=f2e124]: queryLoop()
+            - text: 实现了完全在
+            - strong [ref=f2e125]: 客户端驱动
+            - text: 的 Agentic Loop，约 1700 行代码。
+          - heading "核心结构" [level=3] [ref=f2e126]
+          - code [ref=f2e128]: "// src/query.ts 第 241-310 行 async function* queryLoop( params: QueryParams, consumedCommandUuids: string[], ): AsyncGenerator<...> { // 不可变参数（整个循环期间不变） const { systemPrompt, userContext, canUseTool, maxTurns, ... } = params // 可变跨迭代状态（用单一 state 对象管理） let state: State = { messages: params.messages, toolUseContext: params.toolUseContext, maxOutputTokensOverride: params.maxOutputTokensOverride, autoCompactTracking: undefined, maxOutputTokensRecoveryCount: 0, hasAttemptedReactiveCompact: false, turnCount: 1, pendingToolUseSummary: undefined, transition: undefined, // ← 记录\"上次为什么 continue\"，主要用于测试断言 } // 主循环 while (true) { const { messages, toolUseContext, ... } = state // 1. 上下文准备（压缩、微压缩） // 2. 调用 Claude API（流式） // 3. 处理流式响应（提取 tool_use、助手文本） // 4. 执行工具 // 5. 将工具结果追加到消息历史 // 6. 决定：继续还是结束？ } }"
+          - heading "关键设计：不可变参数 vs 可变状态" [level=3] [ref=f2e129]
+          - code [ref=f2e131]: "// 不可变参数 ← 用 const 解构 const { systemPrompt, userContext, canUseTool, ... } = params // 可变状态 ← 用 let state 管理 let state: State = { messages, toolUseContext, ... } // 在 continue 点更新状态（整体替换，而非修改字段） state = { ...state, messages: [...messages, ...newMessages], toolUseContext: updatedContext, transition: { reason: 'tool_use' }, } continue // 进入下一轮"
+          - paragraph [ref=f2e132]:
+            - text: 这种设计避免了一个常见问题：在一次迭代中修改了下一次迭代需要读取的字段，导致顺序依赖 bug。通过整体替换
+            - code [ref=f2e133]: state
+            - text: 对象，每次迭代开始时拿到的是一致的状态快照。
+          - separator [ref=f2e134]
+          - heading "4.4 工具并发执行" [level=2] [ref=f2e135]
+          - paragraph [ref=f2e136]:
+            - text: 当 AI 返回多个 tool_use 块时，
+            - code [ref=f2e137]: toolOrchestration.ts
+            - text: 负责协调执行：
+          - heading "分批策略" [level=3] [ref=f2e138]
+          - code [ref=f2e140]: "// src/services/tools/toolOrchestration.ts 第 91-116 行 function partitionToolCalls( toolUseMessages: ToolUseBlock[], toolUseContext: ToolUseContext, ): Batch[] { return toolUseMessages.reduce((acc: Batch[], toolUse) => { const tool = findToolByName(toolUseContext.options.tools, toolUse.name) const isConcurrencySafe = tool?.isConcurrencySafe(parsedInput) ?? false // 连续的并发安全工具 → 合并为一批 if (isConcurrencySafe && acc[acc.length - 1]?.isConcurrencySafe) { acc[acc.length - 1]!.blocks.push(toolUse) } else { // 新建一批 acc.push({ isConcurrencySafe, blocks: [toolUse] }) } return acc }, []) }"
+          - paragraph [ref=f2e141]:
+            - strong [ref=f2e142]: 示例
+            - text: ：AI 同时要求以下操作：
+          - code [ref=f2e144]: "[FileRead(\"a.ts\"), FileRead(\"b.ts\"), FileRead(\"c.ts\"), FileEdit(\"a.ts\"), FileRead(\"d.ts\")]"
+          - paragraph [ref=f2e145]: 被分成三个批次：
+          - table [ref=f2e146]:
+            - rowgroup [ref=f2e147]:
+              - row [ref=f2e148]:
+                - columnheader "批次" [ref=f2e149]
+                - columnheader "工具" [ref=f2e150]
+                - columnheader "执行方式" [ref=f2e151]
+            - rowgroup [ref=f2e152]:
+              - row [ref=f2e153]:
+                - cell "批次1（并发安全）" [ref=f2e154]
+                - cell "FileRead(a), FileRead(b), FileRead(c)" [ref=f2e155]
+                - cell [ref=f2e156]:
+                  - strong [ref=f2e157]: 并发
+                  - text: 执行
+              - row [ref=f2e158]:
+                - cell "批次2（不安全）" [ref=f2e159]
+                - cell "FileEdit(a)" [ref=f2e160]
+                - cell [ref=f2e161]:
+                  - strong [ref=f2e162]: 串行
+                  - text: 执行
+              - row [ref=f2e163]:
+                - cell "批次3（并发安全）" [ref=f2e164]
+                - cell "FileRead(d)" [ref=f2e165]
+                - cell [ref=f2e166]:
+                  - strong [ref=f2e167]: 并发
+                  - text: 执行
+          - paragraph [ref=f2e168]:
+            - strong [ref=f2e169]: 优势
+            - text: ：FileEdit 完成后，FileRead(d) 读到的是最新版本的文件。如果全部并发，FileRead(d) 可能读到 FileEdit 之前的状态。
+          - heading "并发实现" [level=3] [ref=f2e170]
+          - code [ref=f2e172]: "// src/services/tools/toolOrchestration.ts 第 152-177 行 async function* runToolsConcurrently( toolUseMessages: ToolUseBlock[], assistantMessages: AssistantMessage[], canUseTool: CanUseToolFn, toolUseContext: ToolUseContext, ): AsyncGenerator<MessageUpdateLazy, void> { yield* all( toolUseMessages.map(async function* (toolUse) { toolUseContext.setInProgressToolUseIDs(prev => new Set(prev).add(toolUse.id), ) yield* runToolUse(toolUse, ...) markToolUseAsComplete(toolUseContext, toolUse.id) }), getMaxToolUseConcurrency(), // 默认 10，可通过环境变量配置 ) }"
+          - paragraph [ref=f2e173]:
+            - code [ref=f2e174]: all()
+            - text: 是一个辅助函数，将多个异步生成器并发运行，限制最大并发数为 10（可通过
+            - code [ref=f2e175]: CLAUDE_CODE_MAX_TOOL_USE_CONCURRENCY
+            - text: 环境变量调整）。
+          - separator [ref=f2e176]
+          - heading "4.5 流式响应处理" [level=2] [ref=f2e177]
+          - paragraph [ref=f2e178]: API 响应是流式的，每个 chunk 可能包含：
+          - list [ref=f2e179]:
+            - listitem [ref=f2e180]: 文本 token（AI 的回复文字）
+            - listitem [ref=f2e181]: tool_use 块的开始/内容/结束
+            - listitem [ref=f2e182]: 思考（thinking）块
+          - paragraph [ref=f2e183]:
+            - text: Claude Code 支持
+            - strong [ref=f2e184]: 流式工具执行
+            - text: （Streaming Tool Execution）：不等 AI 回复完全结束，一旦收到完整的 tool_use 块，立即开始执行对应工具：
+          - code [ref=f2e186]: "// src/query.ts 第 561-568 行 const useStreamingToolExecution = config.gates.streamingToolExecution let streamingToolExecutor = useStreamingToolExecution ? new StreamingToolExecutor( toolUseContext.options.tools, canUseTool, toolUseContext, ) : null"
+          - paragraph [ref=f2e187]:
+            - strong [ref=f2e188]: 好处
+            - text: ：如果 AI 回复包含 3 个工具调用，传统做法是等 AI 全部说完再依次执行；流式执行允许在 AI 还在"说第 2 个工具"时，第 1 个工具已经开始执行了。
+          - separator [ref=f2e189]
+          - heading "4.6 Thinking 模式的特殊规则" [level=2] [ref=f2e190]
+          - paragraph [ref=f2e191]: 注释里有一段带有幽默感的"圣经"风格警告：
+          - code [ref=f2e193]: "// src/query.ts 第 151-163 行 /** * The rules of thinking are lengthy and fortuitous. They require plenty of thinking * of most long duration and deep meditation for a wizard to wrap one's noggin around. * * The rules follow: * 1. A message that contains a thinking or redacted_thinking block must be part of a query whose max_thinking_length > 0 * 2. A thinking block may not be the last message in a block * 3. Thinking blocks must be preserved for the duration of an assistant trajectory (a single turn, or if that turn includes a tool_use block then also its subsequent tool_result and the following assistant message) * * Heed these rules well, young wizard. For they are the rules of thinking, and * the rules of thinking are the rules of the universe. If ye does not heed these * rules, ye will be punished with an entire day of debugging and hair pulling. */"
+          - paragraph [ref=f2e194]: Claude 的"扩展思考"功能在响应中产生两种特殊块：
+          - list [ref=f2e195]:
+            - listitem [ref=f2e196]:
+              - code [ref=f2e197]: thinking
+              - text: ：AI 的内部推理文字（可见）
+            - listitem [ref=f2e198]:
+              - code [ref=f2e199]: redacted_thinking
+              - text: ：加密的内部推理（API 不透传内容，只透传占位符）
+          - paragraph [ref=f2e200]:
+            - strong [ref=f2e201]: 规则 1
+            - text: ：包含 thinking 块的历史消息发回 API 时，必须开启
+            - code [ref=f2e202]: max_thinking_length > 0
+            - text: 。否则 API 报错。
+          - paragraph [ref=f2e203]:
+            - strong [ref=f2e204]: 规则 2
+            - text: ：thinking 块不能是消息内容的最后一个块（必须后面跟着文字或 tool_use）。
+          - paragraph [ref=f2e205]:
+            - strong [ref=f2e206]: 规则 3
+            - text: ：在一个"助手轨迹"（tool_use + tool_result + 下一个 assistant response 的整体）期间，thinking 块必须被完整保留，不能被压缩删除。
+          - paragraph [ref=f2e207]: 违反这些规则不会有编译错误，API 会在运行时报错，而且错误信息往往不直观，调试极其痛苦——这就是为什么注释用如此夸张的语气来警示维护者。
+          - separator [ref=f2e208]
+          - heading "4.7 max_output_tokens 恢复机制" [level=2] [ref=f2e209]
+          - paragraph [ref=f2e210]:
+            - text: 当 Claude 生成的回复超过
+            - code [ref=f2e211]: max_output_tokens
+            - text: 限制时（比如写了特别长的代码），API 返回带有
+            - code [ref=f2e212]: "apiError: 'max_output_tokens'"
+            - text: 的消息。
+          - paragraph [ref=f2e213]: Claude Code 不直接报错，而是实现了"恢复循环"：
+          - code [ref=f2e215]: "// src/query.ts 第 164-179 行 const MAX_OUTPUT_TOKENS_RECOVERY_LIMIT = 3 function isWithheldMaxOutputTokens( msg: Message | StreamEvent | undefined, ): msg is AssistantMessage { return msg?.type === 'assistant' && msg.apiError === 'max_output_tokens' }"
+          - paragraph [ref=f2e216]:
+            - strong [ref=f2e217]: 恢复过程
+            - text: ：
+          - list [ref=f2e218]:
+            - listitem [ref=f2e219]:
+              - text: 检测到
+              - code [ref=f2e220]: max_output_tokens
+              - text: 错误
+            - listitem [ref=f2e221]: 把截断的部分回复保留在上下文中
+            - listitem [ref=f2e222]: 重新调用 API，告诉 Claude "你刚才回复被截断了，请继续"
+            - listitem [ref=f2e223]:
+              - text: 最多重试 3 次（
+              - code [ref=f2e224]: MAX_OUTPUT_TOKENS_RECOVERY_LIMIT = 3
+              - text: ）
+          - paragraph [ref=f2e225]:
+            - strong [ref=f2e226]: 关键细节
+            - text: ：这个错误消息会被"扣留"（withheld），不立即发给 SDK 调用方。因为有些 SDK 消费者（比如 IDE 插件）在看到任何
+            - code [ref=f2e227]: error
+            - text: 字段时会直接终止会话——如果在恢复成功后才透出结果，消费者完全感知不到这次截断。
+          - separator [ref=f2e228]
+          - heading "4.8 降级模型（Fallback Model）" [level=2] [ref=f2e229]
+          - paragraph [ref=f2e230]:
+            - text: 当主模型（比如
+            - code [ref=f2e231]: claude-opus-4-5
+            - text: ）调用失败时，自动切换到
+            - code [ref=f2e232]: fallbackModel
+            - text: （比如
+            - code [ref=f2e233]: claude-sonnet-4-5
+            - text: ）。
+          - code [ref=f2e235]: "// src/query.ts（简化） for await (const message of deps.callModel({ model: currentModel, fallbackModel, onStreamingFallback: () => { streamingFallbackOccured = true }, // ... }))"
+          - paragraph [ref=f2e236]: 降级触发时，之前已经收到的部分响应（可能包含 thinking 块）会被用"墓碑"（tombstone）标记为无效：
+          - code [ref=f2e238]: "if (streamingFallbackOccured) { // 把孤立的消息替换为墓碑 for (const msg of assistantMessages) { yield { type: 'tombstone' as const, message: msg } } // 清空已收集的工具调用 assistantMessages.length = 0 toolUseBlocks.length = 0 }"
+          - paragraph [ref=f2e239]: 这确保了降级后的对话状态是一致的——不会出现来自 opus 的 thinking 块与来自 sonnet 的 tool_use 块混在一起的情况（这会导致 API 报错，因为不同模型的 thinking 块格式不同）。
+          - separator [ref=f2e240]
+          - heading "4.9 Stop Hooks：自定义循环终止逻辑" [level=2] [ref=f2e241]
+          - paragraph [ref=f2e242]: 当 AI 决定结束（没有 tool_use，纯文本回复）时，Claude Code 会运行"Stop Hooks"：
+          - code [ref=f2e244]: "// src/query/stopHooks.ts（简化） export async function handleStopHooks( messages: Message[], toolUseContext: ToolUseContext, ): Promise<'continue' | 'stop'> { // 运行用户配置的 stop hook 脚本 const result = await executeStopHooks(messages, toolUseContext) if (result === 'continue') { // Stop hook 要求继续循环（比如说\"测试还没通过\"） return 'continue' } return 'stop' }"
+          - paragraph [ref=f2e245]: Stop Hooks 让用户可以在 AI 想要结束时插入自定义检查，比如：
+          - list [ref=f2e246]:
+            - listitem [ref=f2e247]: "\"如果最后的 Bash 命令返回了非零 exit code，要求 AI 继续修复\""
+            - listitem [ref=f2e248]: "\"如果 TODO 列表还有未完成项，要求 AI 继续处理\""
+          - paragraph [ref=f2e249]: 这是一个强大的扩展点：用户可以用 shell 脚本表达"任务完成的标准"，而不是靠 AI 自己判断。
+          - separator [ref=f2e250]
+          - heading "4.10 终止条件总结" [level=2] [ref=f2e251]
+          - paragraph [ref=f2e252]: 循环退出有以下情况：
+          - table [ref=f2e253]:
+            - rowgroup [ref=f2e254]:
+              - row [ref=f2e255]:
+                - columnheader "情况" [ref=f2e256]
+                - columnheader "Terminal 值" [ref=f2e257]
+                - columnheader "说明" [ref=f2e258]
+            - rowgroup [ref=f2e259]:
+              - row [ref=f2e260]:
+                - cell "AI 无 tool_use 且 stop hooks 通过" [ref=f2e261]
+                - cell [ref=f2e262]:
+                  - code [ref=f2e263]: "{ reason: 'success' }"
+                - cell "正常完成" [ref=f2e264]
+              - row [ref=f2e265]:
+                - cell "达到最大轮次" [ref=f2e266]
+                - cell [ref=f2e267]:
+                  - code [ref=f2e268]: "{ reason: 'max_turns' }"
+                - cell "防止无限循环" [ref=f2e269]
+              - row [ref=f2e270]:
+                - cell "token 超过阻塞限制" [ref=f2e271]
+                - cell [ref=f2e272]:
+                  - code [ref=f2e273]: "{ reason: 'blocking_limit' }"
+                - cell "需要手动 /compact" [ref=f2e274]
+              - row [ref=f2e275]:
+                - cell "用户中止（Ctrl+C）" [ref=f2e276]
+                - cell [ref=f2e277]:
+                  - text: 抛出
+                  - code [ref=f2e278]: APIUserAbortError
+                - cell "优雅退出" [ref=f2e279]
+              - row [ref=f2e280]:
+                - cell "不可恢复错误" [ref=f2e281]
+                - cell "抛出错误" [ref=f2e282]
+                - cell "传播给上层" [ref=f2e283]
+              - row [ref=f2e284]:
+                - cell "Stop Hook 不通过" [ref=f2e285]
+                - cell "继续循环（不终止）" [ref=f2e286]
+                - cell "重新执行" [ref=f2e287]
+          - separator [ref=f2e288]
+          - heading "4.11 优势与不足" [level=2] [ref=f2e289]
+          - heading "优势" [level=3] [ref=f2e290]
+          - paragraph [ref=f2e291]:
+            - strong [ref=f2e292]: 客户端驱动
+            - text: ：工具在本地执行，没有额外的 round-trip 延迟。相比 OpenAI Assistants API，每次工具调用节省 200-500ms 网络延迟。
+          - paragraph [ref=f2e293]:
+            - strong [ref=f2e294]: 智能并发执行
+            - text: ：只读工具并发，写操作串行，兼顾了速度和安全性。
+          - paragraph [ref=f2e295]:
+            - strong [ref=f2e296]: 流式工具执行
+            - text: ：不等 AI 全部说完就开始执行工具，对于包含多个工具调用的复杂任务，能显著减少总耗时。
+          - paragraph [ref=f2e297]:
+            - strong [ref=f2e298]: max_output_tokens 自动恢复
+            - text: ：长代码生成不会因截断而失败，用户无感知。
+          - paragraph [ref=f2e299]:
+            - strong [ref=f2e300]: Stop Hooks 扩展点
+            - text: ：用户可以定义任务完成标准，Claude 的"我觉得我做完了"和用户的"测试通过了才算完"两种定义可以共存。
+          - heading "不足" [level=3] [ref=f2e301]
+          - paragraph [ref=f2e302]:
+            - strong [ref=f2e303]:
+              - code [ref=f2e304]: queryLoop
+              - text: 约 1700 行
+            - text: ，是整个项目最难读的单个函数。状态机逻辑、压缩逻辑、错误恢复逻辑、流式处理逻辑全部耦合在一个函数里。注释详尽但仍然难以完整理解所有的
+            - code [ref=f2e305]: continue
+            - text: 跳转目标。
+          - paragraph [ref=f2e306]:
+            - strong [ref=f2e307]: 无超时保证
+            - text: ：如果工具执行无限阻塞（比如
+            - code [ref=f2e308]: BashTool
+            - text: 执行了一个死循环程序），理论上循环会永久阻塞。虽然
+            - code [ref=f2e309]: BashTool
+            - text: 有自己的超时机制，但这不是 loop 层面的通用保障。
+          - paragraph [ref=f2e310]:
+            - strong [ref=f2e311]: 无重试策略
+            - text: ：工具执行失败时，循环直接把错误信息报告给 AI，让 AI 决定下一步。AI 可能选择重试（浪费时间）或放弃（任务未完成）。没有类似指数退避的智能重试策略。
+  - contentinfo [ref=f2e312]:
+    - generic [ref=f2e313]:
+      - link "随笔 on Github" [ref=f2e315] [cursor=pointer]:
+        - /url: https://github.com/LukeChou166
+      - generic [ref=f2e320]:
+        - generic [ref=f2e321]: 版权所有 © 2026
+        - generic [ref=f2e322]: "|"
+        - generic [ref=f2e323]: 保留所有权利。
