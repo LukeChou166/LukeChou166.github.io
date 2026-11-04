@@ -1,0 +1,65 @@
+- generic [active] [ref=f4e1]:
+  - link "跳到正文" [ref=f4e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f4e3]:
+    - generic [ref=f4e4]:
+      - link "随笔" [ref=f4e5] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=f4e6]:
+        - list [ref=f4e7]:
+          - listitem [ref=f4e8]:
+            - link "文章" [ref=f4e9] [cursor=pointer]:
+              - /url: /posts/
+          - listitem [ref=f4e10]:
+            - link "标签" [ref=f4e11] [cursor=pointer]:
+              - /url: /tags/
+          - listitem [ref=f4e12]:
+            - link "关于" [ref=f4e13] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=f4e14]:
+            - link "知识分享" [ref=f4e15] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f4e16]:
+            - link "历史版本" [ref=f4e17] [cursor=pointer]:
+              - /url: /legacy/
+          - listitem [ref=f4e18]:
+            - link "归档" [ref=f4e19] [cursor=pointer]:
+              - /url: /archives/
+          - listitem [ref=f4e24]:
+            - link "搜索" [ref=f4e25] [cursor=pointer]:
+              - /url: /search/
+          - listitem [ref=f4e30]:
+            - button "light" [ref=f4e31] [cursor=pointer]
+  - main [ref=f4e35]:
+    - generic [ref=f4e36]:
+      - complementary [ref=f4e37]:
+        - generic [ref=f4e38]:
+          - paragraph [ref=f4e39]: 书籍
+          - generic [ref=f4e40]:
+            - button "Claude Code 深度源码解析 基于 Claude Code 反编译还原源码的深度解析专栏" [ref=f4e41] [cursor=pointer]:
+              - generic [ref=f4e42]: Claude Code 深度源码解析
+              - generic [ref=f4e43]: 基于 Claude Code 反编译还原源码的深度解析专栏
+            - button "测试书 多书切换验证用" [ref=f4e44] [cursor=pointer]:
+              - generic [ref=f4e45]: 测试书
+              - generic [ref=f4e46]: 多书切换验证用
+        - navigation "章节目录" [ref=f4e47]:
+          - link "第一章" [ref=f4e48] [cursor=pointer]:
+            - /url: "#/test-book/ch1.md"
+          - link "第二章" [ref=f4e49] [cursor=pointer]:
+            - /url: "#/test-book/ch2.md"
+      - article [ref=f4e50]:
+        - generic [ref=f4e51]:
+          - heading "第一章" [level=1] [ref=f4e52]
+          - link "查看源文件 ↗" [ref=f4e53] [cursor=pointer]:
+            - /url: /book/test-book/ch1.md
+        - generic [ref=f4e54]:
+          - heading "第一章" [level=1] [ref=f4e55]
+          - paragraph [ref=f4e56]: 测试正文一。
+  - contentinfo [ref=f4e57]:
+    - generic [ref=f4e58]:
+      - link "随笔 on Github" [ref=f4e60] [cursor=pointer]:
+        - /url: https://github.com/LukeChou166
+      - generic [ref=f4e65]:
+        - generic [ref=f4e66]: 版权所有 © 2026
+        - generic [ref=f4e67]: "|"
+        - generic [ref=f4e68]: 保留所有权利。

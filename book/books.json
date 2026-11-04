@@ -1,0 +1,34 @@
+{
+  "version": 1,
+  "books": [
+    {
+      "id": "claude-code-book",
+      "title": "Claude Code 深度源码解析",
+      "description": "基于 Claude Code 反编译还原源码的深度解析专栏",
+      "defaultChapter": "README.md",
+      "order": 1,
+      "chapters": [
+        "README.md",
+        "CODE_INDEX.md",
+        "01-architecture-overview.md",
+        "01-architecture-overview-code.md",
+        "02-startup-and-init.md",
+        "03-query-engine.md",
+        "04-agentic-loop.md",
+        "05-tool-system.md",
+        "05-tool-system-code.md",
+        "06-permissions.md",
+        "07-task-orchestration.md",
+        "08-context-management.md",
+        "09-memory-system.md",
+        "10-mcp-integration.md",
+        "11-session-persistence.md",
+        "12-permission-modes.md",
+        "13-state-management.md",
+        "14-error-recovery.md",
+        "15-security-layers.md",
+        "16-tools-catalog.md"
+      ]
+    }
+  ]
+}
