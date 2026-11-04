@@ -1,0 +1,65 @@
+- generic [active] [ref=f10e1]:
+  - link "跳到正文" [ref=f10e2] [cursor=pointer]:
+    - /url: "#main-content"
+  - banner [ref=f10e3]:
+    - generic [ref=f10e4]:
+      - link "随笔" [ref=f10e5] [cursor=pointer]:
+        - /url: /
+      - navigation [ref=f10e6]:
+        - list [ref=f10e7]:
+          - listitem [ref=f10e8]:
+            - link "文章" [ref=f10e9] [cursor=pointer]:
+              - /url: /posts/
+          - listitem [ref=f10e10]:
+            - link "标签" [ref=f10e11] [cursor=pointer]:
+              - /url: /tags/
+          - listitem [ref=f10e12]:
+            - link "关于" [ref=f10e13] [cursor=pointer]:
+              - /url: /about/
+          - listitem [ref=f10e14]:
+            - link "知识分享" [ref=f10e15] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=f10e16]:
+            - link "历史版本" [ref=f10e17] [cursor=pointer]:
+              - /url: /legacy/
+          - listitem [ref=f10e18]:
+            - link "归档" [ref=f10e19] [cursor=pointer]:
+              - /url: /archives/
+          - listitem [ref=f10e24]:
+            - link "搜索" [ref=f10e25] [cursor=pointer]:
+              - /url: /search/
+          - listitem [ref=f10e30]:
+            - button "light" [ref=f10e31] [cursor=pointer]
+  - link "返回" [ref=f10e36] [cursor=pointer]:
+    - /url: /posts/
+  - main [ref=f10e41]:
+    - heading "bert" [level=1] [ref=f10e42]
+    - time [ref=f10e48]: 10 Jun, 2020
+    - article [ref=f10e49]:
+      - paragraph [ref=f10e50]: 测试博客效果
+    - separator [ref=f10e51]
+    - button "回到顶部" [ref=f10e53] [cursor=pointer]
+    - list [ref=f10e58]:
+      - listitem [ref=f10e59]:
+        - link "bert" [ref=f10e60] [cursor=pointer]:
+          - /url: /tags/bert/
+    - separator [ref=f10e64]
+    - generic [ref=f10e65]:
+      - link "上一篇 Hello World" [ref=f10e66] [cursor=pointer]:
+        - /url: /posts/hello-world/
+        - generic [ref=f10e70]:
+          - text: 上一篇
+          - generic [ref=f10e71]: Hello World
+      - link "下一篇 caffe源码阅读之源码安装caffe（一）" [ref=f10e72] [cursor=pointer]:
+        - /url: /posts/caffe-source-code-reading/
+        - generic [ref=f10e73]:
+          - text: 下一篇
+          - generic [ref=f10e74]: caffe源码阅读之源码安装caffe（一）
+  - contentinfo [ref=f10e78]:
+    - generic [ref=f10e79]:
+      - link "随笔 on Github" [ref=f10e81] [cursor=pointer]:
+        - /url: https://github.com/LukeChou166
+      - generic [ref=f10e86]:
+        - generic [ref=f10e87]: 版权所有 © 2026
+        - generic [ref=f10e88]: "|"
+        - generic [ref=f10e89]: 保留所有权利。

@@ -1,0 +1,2 @@
+[      72ms] [ERROR] Failed to load resource: the server responded with a status of 404 (File not found) @ http://localhost:4173/book/ghost-book/SUMMARY.md:0
+[      72ms] [WARNING] [reader] 书籍 ghost-book 校验失败：HTTP 404，已跳过 @ http://localhost:4173/_astro/index.astro_astro_type_script_index_0_lang.Bc-ulzaW.js:76

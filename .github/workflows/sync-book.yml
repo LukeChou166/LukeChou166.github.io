@@ -31,7 +31,10 @@ jobs:
         id: sync
         run: |
           BEFORE=$(git rev-parse HEAD)
-          git subtree pull --prefix=book https://github.com/LukeChou166/claude-code-book.git main --squash || true
+          # 002-knowledge-home: 书籍迁入 book/claude-code-book/ 子目录以支持多书。
+          # 注意：claude-code-book 仓库的 notify-blog.yml（repository_dispatch 实时触发）
+          # 如检查本仓库 book/ 路径需同步更新；未更新前每小时定时兜底同步仍然有效。
+          git subtree pull --prefix=book/claude-code-book https://github.com/LukeChou166/claude-code-book.git main --squash || true
           AFTER=$(git rev-parse HEAD)
           if [ "$BEFORE" != "$AFTER" ]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
