@@ -4,6 +4,12 @@
 
 > 本仓库存放的是 **Hexo 构建产物**（生成的 HTML/CSS/JS），不是 Hexo 源码工程。日常发文章请在本地 Hexo 工程中写 Markdown 后 `hexo generate`，把 `public/` 目录内容同步到本仓库。
 
+## 基于spec开发
+初始化
+```
+specify init --here --force --integration  codebuddy
+```
+
 ## 本地启动
 
 纯静态站点，无需安装依赖，任选一种方式在仓库根目录启动本地服务：
