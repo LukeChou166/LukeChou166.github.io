@@ -34,3 +34,12 @@
 - 修复过程中 `git add -A` 曾把本地调试目录 `.playwright-cli/` 重新带入版本库
   （`717f2fa`），已由 `f7d6159` 从索引移除；`.gitignore` 现已包含
   `.playwright-cli/`、`home.yaml`、`reader-desktop.png`
+
+## 回归记录（2026-11-06）
+
+- 提交 `fb1bf54`（书籍手动镜像同步）因暂存区混入**修复前的旧版
+  index.astro/Header.astro**，全屏布局被回退，线上再次变窄
+- 修复：`100c85f` 重新提交工作区中的全屏版源码并重建产物；已验证线上
+  `reader-page` 与新 CSS（`index.CS9DclwV.css`）恢复
+- 教训：多分支/多编辑器并行时，提交前先 `git pull` 并确认暂存内容
+  （`git diff --cached`），避免旧文件覆盖新修复
