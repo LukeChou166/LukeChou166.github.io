@@ -5,5 +5,4 @@ site-src/.astro/
 .DS_Store
 .codebuddy/
 .playwright-cli/
-home.yaml
-reader-desktop.png
+.playwright-cli/

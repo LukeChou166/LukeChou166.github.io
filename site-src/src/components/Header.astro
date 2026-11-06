@@ -13,8 +13,6 @@ import { useTranslations } from "@/i18n";
 import config from "@/config";
 
 const { site, features } = config;
-// 阅读器首页等全宽页面传入 wide，脱出 max-w-3xl 窄栏
-const { wide = false } = Astro.props;
 
 const locale = Astro.currentLocale ?? config.site.lang;
 const t = useTranslations(locale);
@@ -45,10 +43,7 @@ const isActive = (path: string) => {
 </a>
 
 <header
-  class:list={[
-    wide ? "w-full px-6" : "app-layout",
-    "flex flex-col items-center justify-between sm:flex-row",
-  ]}
+  class="app-layout flex flex-col items-center justify-between sm:flex-row"
 >
   <div
     class="border-border bg-background relative flex w-full items-baseline justify-between border-b py-4 sm:items-center sm:py-6"
