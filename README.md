@@ -39,7 +39,7 @@ cd site-src && npm run dev
 ├── book/                      # 知识分享（多书）
 │   ├── books.json             # 书籍清单（新增书在此登记）
 │   ├── index.html             # 旧 /book/ 入口的兼容跳转页
-│   └── claude-code-book/      # subtree 同步的书籍（SUMMARY.md + 章节 md）
+│   └── claude-code-book/      # 自动镜像同步的书籍（SUMMARY.md + 章节 md）
 ├── legacy/                    # 旧版博客整站归档（只读）
 │   └── book/                  # book 的兜底镜像
 ├── site-src/                  # Astro 源码工程（阅读器源码 src/scripts/reader/）
@@ -59,45 +59,18 @@ cd site-src && npm run dev
 2. 在 [`book/books.json`](book/books.json) 登记一条（id 必须等于目录名）
 3. 完成——刷新首页即出现在书架，无需改任何代码、无需重新构建
 
-### 书籍同步（git subtree）
+### 书籍同步（自动镜像）
 
-现有书籍通过 `git subtree` 嵌入：`book/claude-code-book/` 来自
-[claude-code-book](https://github.com/LukeChou166/claude-code-book)。
-`.github/workflows/sync-book.yml` 自动同步（repository_dispatch 实时触发 +
-每小时兜底）。**书籍内容更新无需重新构建站点**——阅读器运行时读取 md。
+书籍内容来自 [claude-code-book](https://github.com/LukeChou166/claude-code-book)。
+`.github/workflows/sync-book.yml` 每小时（第 23 分钟）将书源仓库**镜像**到
+`book/claude-code-book/`，有变化才提交推送，**无需重新构建站点**——阅读器
+运行时读取 md，同步即上线。
 
-> 外部仓库 claude-code-book 的 notify 工作流如检查本仓库路径，需同步更新为
-> `book/claude-code-book/`；未更新前实时触发会失效，每小时兜底依然有效。
-
-### 手动同步
-
-```bash
-git subtree pull --prefix=book/claude-code-book https://github.com/LukeChou166/claude-code-book.git main --squash
-```
-
-### 自动同步（已配置 GitHub Actions）
-
-书源仓库更新后，本仓库会自动执行 `git subtree pull` 并发布，无需手动操作：
-
-1. **实时触发**：`claude-code-book` 仓库 push 时，通过其 `.github/workflows/notify-blog.yml`
-   向本仓库发送 `repository_dispatch` 事件（需要在该仓库配置 `BLOG_PAT` Secret，见下）。
-2. **兜底同步**：本仓库的 `.github/workflows/sync-book.yml` 每小时（每小时第 23 分钟）定时检查一次书源，
-   有更新才提交，无更新不产生空提交。
-
-> 首次使用实时触发需要一次性配置：在 GitHub 创建一个 Fine-grained PAT
-> （仅授权 `LukeChou166/luluyouyue.github.io`，权限 Contents: Read and write），
-> 然后到 `claude-code-book` 仓库的 Settings → Secrets and variables → Actions，
-> 添加名为 `BLOG_PAT` 的 Secret。未配置时定时兜底依然生效。
-
-### 手动同步
-
-也可在本仓库 Actions 页面手动运行 "Sync book subtree"，或本地执行：
-
-```bash
-git subtree pull --prefix=book https://github.com/LukeChou166/claude-code-book.git main --squash
-```
-
-> Docsify 壳文件 `book/index.html` 是本仓库自己加的，书源中没有同名文件，同步时不会冲突。
+> 早期版本用 `git subtree pull` 同步；书籍目录迁移到子目录后 subtree 合并
+> 元数据失效，冲突被静默吞掉导致"看起来成功但没拉代码"，已于 2026-11-06
+> 改为镜像方式（见 `doc/changes/2026-11-06-book-sync-broken.md`）。
+> Docsify 阅读壳 `book/claude-code-book/index.html` 是本仓库维护的文件，
+> 同步时自动保留。
 
 ## 部署
 

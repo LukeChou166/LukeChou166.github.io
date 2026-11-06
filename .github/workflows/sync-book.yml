@@ -27,21 +27,28 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      - name: Pull book subtree
+      - name: Sync book content (mirror)
         id: sync
         run: |
           BEFORE=$(git rev-parse HEAD)
-          # 002-knowledge-home: 书籍迁入 book/claude-code-book/ 子目录以支持多书。
-          # 注意：claude-code-book 仓库的 notify-blog.yml（repository_dispatch 实时触发）
-          # 如检查本仓库 book/ 路径需同步更新；未更新前每小时定时兜底同步仍然有效。
-          git subtree pull --prefix=book/claude-code-book https://github.com/LukeChou166/claude-code-book.git main --squash || true
-          AFTER=$(git rev-parse HEAD)
-          if [ "$BEFORE" != "$AFTER" ]; then
-            echo "changed=true" >> "$GITHUB_OUTPUT"
-            echo "Book updated: $BEFORE -> $AFTER"
-          else
+          # 002-knowledge-home 之后书籍位于 book/claude-code-book/。
+          # git subtree 依赖的合并元数据在目录迁移后已失效（冲突被 || true 静默吞掉），
+          # 故改为直接镜像书源仓库（research.md R3 降级方案）。
+          git clone --depth 1 --branch main \
+            https://github.com/LukeChou166/claude-code-book.git /tmp/book-src
+          rsync -a --delete \
+            --exclude '.git' --exclude '.github' \
+            /tmp/book-src/ book/claude-code-book/
+          # 保留本仓库维护的 Docsify 阅读壳（书源无此文件，会被 --delete 清掉）
+          git checkout HEAD -- book/claude-code-book/index.html
+          git add book/claude-code-book
+          if git diff --cached --quiet "$BEFORE" -- book/claude-code-book; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
             echo "Book already up to date"
+          else
+            git commit -m "sync: update claude-code-book content"
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+            echo "Book updated: $BEFORE -> $(git rev-parse HEAD)"
           fi
 
       - name: Push
