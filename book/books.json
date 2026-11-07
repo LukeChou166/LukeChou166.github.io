@@ -29,6 +29,16 @@
         "15-security-layers.md",
         "16-tools-catalog.md"
       ]
+    },
+    {
+      "id": "agent-papers",
+      "title": "Agent 论文笔记",
+      "description": "Agent 相关论文的中文翻译与阅读笔记",
+      "defaultChapter": "OpenHands_zh.md",
+      "order": 2,
+      "chapters": [
+        "OpenHands_zh.md"
+      ]
     }
   ]
 }
