@@ -86,9 +86,12 @@ editor.ts / save.ts），`app.ts` 仅做挂载与守卫接线。
 ## R6 站点配置（owner/repo）
 
 **Decision**: 在 reader 内新增编辑配置常量：`owner = "LukeChou166"`、
-`repo = "luluyouyue.github.io"`、`branch = "master"`；owner 与
+`repo = "LukeChou166.github.io"`、`branch = "master"`；owner 与
 `astro-paper.config.ts` 的 `site.profile` 对应账号一致，v1 不做跨文件
 联动，改动时需同步两处（在常量处注释说明）。
+（2026-11-07 修正：repo 初版误写为改名前旧名 `luluyouyue.github.io`，
+旧名 301 会导致 PUT 降级失败，已改为与 git remote 一致的现名，
+见 `doc/bug/2026-11-07-editor-repo-name-and-meta-error.md`。）
 
 **Alternatives considered**: 构建期注入环境变量——增加构建复杂度，
 收益仅是少一处常量。否决。

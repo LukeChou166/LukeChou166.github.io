@@ -12,7 +12,12 @@ import type { OwnerSession } from "../types";
  */
 export const EDITOR_CONFIG = {
   owner: "LukeChou166",
-  repo: "luluyouyue.github.io",
+  /**
+   * 实际仓库名，与 git remote 一致（2026-11-07 修正：`luluyouyue.github.io`
+   * 为改名前旧名，API 对旧名返回 301；GET 可跟随重定向，但 PUT 遇 301
+   * 会被浏览器降级为 GET 导致保存失败，MUST 直连现名）。
+   */
+  repo: "LukeChou166.github.io",
   branch: "master",
 } as const;
 

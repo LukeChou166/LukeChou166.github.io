@@ -47,16 +47,22 @@ function toBase64Utf8(text: string): string {
   return btoa(binary);
 }
 
+export type FetchMetaResult =
+  | { ok: true; meta: RemoteMeta }
+  | { ok: false; message: string };
+
 /**
  * 读取远端文件元数据（进入编辑态时调用）。
  * 200 → sha + 内容；404 → 新建（sha=null，content=""）；
- * 其他失败 → null（调用方提示重试，不进入编辑态）。
+ * 其他失败 → ok:false（message 含状态码与可读提示，不再静默吞掉）。
  */
 export async function fetchRemoteMeta(
   path: string,
   token: string
-): Promise<RemoteMeta | null> {
-  if (!isWritablePath(path)) return null;
+): Promise<FetchMetaResult> {
+  if (!isWritablePath(path)) {
+    return { ok: false, message: "路径必须位于 book/ 目录下" };
+  }
   const url = apiUrl(
     `/repos/${EDITOR_CONFIG.repo}/contents/${encodePath(path)}?ref=${EDITOR_CONFIG.branch}`
   );
@@ -64,27 +70,38 @@ export async function fetchRemoteMeta(
   try {
     res = await fetch(url, { headers: authHeaders(token) });
   } catch {
-    return null;
+    return { ok: false, message: "网络请求失败，请检查网络后重试" };
   }
   if (res.status === 404) {
-    return { sha: null, content: "", exists: false };
+    return { ok: true, meta: { sha: null, content: "", exists: false } };
   }
-  if (!res.ok) return null;
+  if (!res.ok) {
+    const hint =
+      res.status === 403
+        ? "：凭据可能缺少本仓库的 Contents 读取权限，请检查细粒度 PAT 的仓库范围与 Contents: Read and write 配置"
+        : res.status === 401
+          ? "：凭据无效或已过期，请退出登录后重新确认身份"
+          : "";
+    return { ok: false, message: `HTTP ${res.status}${hint}` };
+  }
   try {
     const data = (await res.json()) as {
       sha?: unknown;
       content?: unknown;
     };
     if (typeof data.sha !== "string" || typeof data.content !== "string") {
-      return null;
+      return { ok: false, message: "远端文件响应缺少 sha/content 字段" };
     }
     return {
-      sha: data.sha,
-      content: decodeBase64Utf8(data.content),
-      exists: true,
+      ok: true,
+      meta: {
+        sha: data.sha,
+        content: decodeBase64Utf8(data.content),
+        exists: true,
+      },
     };
   } catch {
-    return null;
+    return { ok: false, message: "远端文件响应解析失败" };
   }
 }
 

@@ -213,11 +213,14 @@ export async function startEditing(target: EditTarget): Promise<void> {
   if (!path) return;
 
   content.innerHTML = `<p class="reader-status">加载编辑器：<code>${escapeHtml(path)}</code> …</p>`;
-  const meta = await fetchRemoteMeta(path, session.token);
-  if (meta === null) {
-    content.innerHTML = `<p class="reader-status reader-error">无法获取远端文件信息，请稍后重试。</p>`;
+  const metaRes = await fetchRemoteMeta(path, session.token);
+  if (!metaRes.ok) {
+    content.innerHTML = `
+      <p class="reader-status reader-error">无法获取远端文件信息：${escapeHtml(metaRes.message)}</p>
+      <p class="reader-status-sub">请检查访问凭据的仓库范围与权限（细粒度 PAT 需勾选本仓库 + Contents: Read and write），或稍后重试。</p>`;
     return;
   }
+  const meta = metaRes.meta;
   // 章节编辑优先用当前已加载原文（避免额外网络往返与内容漂移）
   const original =
     target.kind === "chapter" ? (hooks.getCurrentChapterRaw() ?? meta.content) : meta.content;
@@ -368,11 +371,16 @@ async function onSave(): Promise<void> {
 async function pullLatest(discardLocal: boolean): Promise<void> {
   const session = getSession();
   if (!session || !editing) return;
-  const meta = await fetchRemoteMeta(editing.draft.path, session.token);
-  if (meta === null || !meta.exists || meta.sha === null) {
-    setFeedback(`<p class="reader-editor-feedback-msg reader-editor-feedback-error">拉取最新失败，请重试。</p>`);
+  const metaRes = await fetchRemoteMeta(editing.draft.path, session.token);
+  if (!metaRes.ok || !metaRes.meta.exists || metaRes.meta.sha === null) {
+    setFeedback(
+      `<p class="reader-editor-feedback-msg reader-editor-feedback-error">拉取最新失败${
+        metaRes.ok ? "" : `：${escapeHtml(metaRes.message)}`
+      }，请重试。</p>`
+    );
     return;
   }
+  const meta = metaRes.meta;
   editing.draft.baseSha = meta.sha;
   editing.draft.original = meta.content;
   if (discardLocal) {

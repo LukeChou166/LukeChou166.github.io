@@ -11,7 +11,7 @@ Feature: 003-online-book-editor ｜ 日期：2026-11-07 ｜ 决策来源：resea
 
 | 项 | 值 |
 |----|----|
-| 仓库 | `LukeChou166/luluyouyue.github.io` |
+| 仓库 | `LukeChou166/LukeChou166.github.io`（2026-11-07 修正：`luluyouyue.github.io` 为改名前旧名，API 对旧名返回 301；PUT 遇 301 会被浏览器降级为 GET，MUST 直连现名，见 `doc/bug/2026-11-07-editor-repo-name-and-meta-error.md`） |
 | 分支 | `master` |
 | 可写前缀 | `book/`（编辑器保存路径 MUST 以 `book/` 开头，防误写其他目录） |
 | 认证头 | `Authorization: Bearer <token>` |
@@ -33,7 +33,10 @@ Feature: 003-online-book-editor ｜ 日期：2026-11-07 ｜ 决策来源：resea
 
 - 200：缓存 `sha`（更新保存用）与 `content`（Base64，可校验与阅读态原文一致）；
 - 404：目标不存在 → 按**新建文件**处理，`baseSha = null`；
-- 其他 4xx/5xx / 网络异常：进入编辑态失败，提示重试。
+- 403：凭据缺少本仓库 Contents 读取权限 → 提示检查 PAT 仓库范围与权限配置；
+- 401：凭据失效 → 引导退出后重新确认身份；
+- 其他 4xx/5xx / 网络异常：进入编辑态失败，错误提示 MUST 包含状态码/原因，
+  MUST NOT 静默吞掉（2026-11-07 修正）。
 
 ### 3. 保存（PUT 写回）
 
