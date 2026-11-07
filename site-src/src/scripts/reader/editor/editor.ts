@@ -8,8 +8,10 @@ import type { Draft, EditTarget } from "../types";
 import { renderMarkdown } from "../markdown";
 import {
   clearSession,
+  getAPIBase,
   getSession,
   restoreSession,
+  saveAPIBase,
   saveSession,
   verifyToken,
 } from "./auth";
@@ -70,6 +72,8 @@ function renderLoginEntry(): void {
       <div class="reader-owner-dialog" id="reader-owner-dialog" hidden>
         <label for="reader-owner-token">GitHub 细粒度 PAT（仅本仓库 Contents 读写）</label>
         <input type="password" id="reader-owner-token" autocomplete="off">
+        <label for="reader-owner-apibase">API 地址（可选，留空 = 官方；直连不稳定时可填自建反代）</label>
+        <input type="text" id="reader-owner-apibase" placeholder="https://api.github.com" autocomplete="off">
         <p class="reader-owner-msg" id="reader-owner-msg" aria-live="polite"></p>
         <button type="button" id="reader-owner-verify" class="reader-btn reader-btn-primary">确认身份</button>
       </div>`;
@@ -92,6 +96,16 @@ function toggleLoginDialog(): void {
   if (!dialog) return;
   dialog.hidden = !dialog.hidden;
   if (!dialog.hidden) {
+    const apiBaseInput = document.getElementById(
+      "reader-owner-apibase"
+    ) as HTMLInputElement | null;
+    // 已配置自定义地址时回填，便于查看/修改
+    if (apiBaseInput && !apiBaseInput.value) {
+      const current = getAPIBase();
+      apiBaseInput.value = current.startsWith("https://api.github.com")
+        ? ""
+        : current;
+    }
     (document.getElementById("reader-owner-token") as HTMLInputElement | null)?.focus();
   }
 }
@@ -113,6 +127,9 @@ async function doVerify(): Promise<void> {
   const input = document.getElementById(
     "reader-owner-token"
   ) as HTMLInputElement | null;
+  const apiBaseInput = document.getElementById(
+    "reader-owner-apibase"
+  ) as HTMLInputElement | null;
   const msg = document.getElementById("reader-owner-msg");
   const btn = document.getElementById(
     "reader-owner-verify"
@@ -123,6 +140,7 @@ async function doVerify(): Promise<void> {
     msg.textContent = "请输入访问凭据";
     return;
   }
+  saveAPIBase(apiBaseInput?.value ?? "");
   msg.textContent = "校验中…";
   btn.disabled = true;
   const result = await verifyToken(token);

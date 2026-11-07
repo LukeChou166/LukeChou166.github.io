@@ -22,7 +22,61 @@ export const EDITOR_CONFIG = {
 } as const;
 
 const SESSION_KEY = "reader:owner-session";
-const API_ROOT = "https://api.github.com";
+const API_BASE_KEY = "reader:gh-api-base";
+const DEFAULT_API_BASE = "https://api.github.com";
+
+/**
+ * 可选自定义 API 地址（contracts/local-storage.md：reader:gh-api-base）。
+ * api.github.com 在部分网络环境（如中国大陆）直连不稳定，所有者可在登录
+ * 对话框填入自建反代地址（如 Cloudflare Worker）；留空 = 官方地址。
+ */
+export function getAPIBase(): string {
+  try {
+    const v = (localStorage.getItem(API_BASE_KEY) ?? "")
+      .trim()
+      .replace(/\/+$/, "");
+    return v || DEFAULT_API_BASE;
+  } catch {
+    return DEFAULT_API_BASE;
+  }
+}
+
+export function saveAPIBase(base: string): void {
+  try {
+    const v = base.trim().replace(/\/+$/, "");
+    if (v) localStorage.setItem(API_BASE_KEY, v);
+    else localStorage.removeItem(API_BASE_KEY);
+  } catch {
+    /* 忽略 */
+  }
+}
+
+export function apiUrl(path: string): string {
+  return `${getAPIBase()}${path}`;
+}
+
+/**
+ * 网络请求重试：仅对 fetch 抛异常（连接失败/被重置）重试，HTTP 状态错误
+ * 不重试。PUT 幂等（固定 sha），重复成功只是同一提交。应对间歇性网络阻断。
+ */
+export async function fetchWithRetry(
+  url: string,
+  init: RequestInit,
+  retries = 2
+): Promise<Response> {
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await fetch(url, init);
+    } catch (err) {
+      lastErr = err;
+      if (attempt < retries) {
+        await new Promise(resolve => setTimeout(resolve, 800 * (attempt + 1)));
+      }
+    }
+  }
+  throw lastErr;
+}
 
 /** 平台接口通用请求头（contracts/github-contents-api.md） */
 export function authHeaders(token: string): HeadersInit {
@@ -33,10 +87,6 @@ export function authHeaders(token: string): HeadersInit {
   };
 }
 
-export function apiUrl(path: string): string {
-  return `${API_ROOT}${path}`;
-}
-
 export type VerifyResult =
   | { ok: true; login: string }
   | { ok: false; reason: string };
@@ -45,7 +95,9 @@ export type VerifyResult =
 export async function verifyToken(token: string): Promise<VerifyResult> {
   let res: Response;
   try {
-    res = await fetch(`${API_ROOT}/user`, { headers: authHeaders(token) });
+    res = await fetchWithRetry(apiUrl("/user"), {
+      headers: authHeaders(token),
+    });
   } catch {
     return { ok: false, reason: "网络异常，身份校验失败，请重试" };
   }

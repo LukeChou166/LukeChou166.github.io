@@ -11,6 +11,7 @@ reader 既有键 `reader:last`（route.ts）不变。本特性新增键统一带
 |----|----|--------|----------|
 | `reader:owner-session` | `{"token":"…","login":"LukeChou166","verifiedAt":"2026-11-07T…Z"}` | editor/auth.ts | 建立/复核成功时写入；401 或用户主动退出时删除 |
 | `reader:edit-log` | ChangeRecord[]（最多 50 条，新的在前） | editor/save.ts | 每次保存尝试后追加 |
+| `reader:gh-api-base` | 自定义 API 反代地址（2026-11-07 新增，应对 api.github.com 直连不稳定）；空/缺省 = 官方地址 | editor/auth.ts | 登录对话框修改时写入；清空即恢复官方 |
 
 ## 规则
 

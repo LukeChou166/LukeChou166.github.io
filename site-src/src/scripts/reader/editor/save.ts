@@ -5,7 +5,7 @@
  * - 每次尝试写 localStorage["reader:edit-log"] 环形日志（FR-012，不含凭据）
  */
 import type { ChangeKind, ChangeRecord, Draft } from "../types";
-import { EDITOR_CONFIG, apiUrl, authHeaders } from "./auth";
+import { EDITOR_CONFIG, apiUrl, authHeaders, fetchWithRetry } from "./auth";
 
 const LOG_KEY = "reader:edit-log";
 const LOG_LIMIT = 50;
@@ -68,9 +68,13 @@ export async function fetchRemoteMeta(
   );
   let res: Response;
   try {
-    res = await fetch(url, { headers: authHeaders(token) });
+    res = await fetchWithRetry(url, { headers: authHeaders(token) });
   } catch {
-    return { ok: false, message: "网络请求失败，请检查网络后重试" };
+    return {
+      ok: false,
+      message:
+        "网络请求失败（已自动重试仍不通）：本网络到 api.github.com 直连不稳定，可在登录对话框填入自建反代地址",
+    };
   }
   if (res.status === 404) {
     return { ok: true, meta: { sha: null, content: "", exists: false } };
@@ -160,7 +164,7 @@ export async function saveFile(
 
   let res: Response;
   try {
-    res = await fetch(
+    res = await fetchWithRetry(
       apiUrl(
         `/repos/${EDITOR_CONFIG.repo}/contents/${encodePath(draft.path)}`
       ),
@@ -169,7 +173,11 @@ export async function saveFile(
   } catch (err) {
     const detail = err instanceof Error ? err.message : String(err);
     logAttempt(draft, kind, "failed", `网络请求失败：${detail}`);
-    return { result: "failed", message: `网络请求失败：${detail}`, kind };
+    return {
+      result: "failed",
+      message: `网络请求失败（已自动重试仍不通）：${detail}`,
+      kind,
+    };
   }
 
   if (res.ok) {
