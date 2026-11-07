@@ -303,6 +303,165 @@ const title = `${config.site.title} · 知识分享`;
     margin: 2em 0;
   }
 
+  /* ---- 编辑模块（specs/003-online-book-editor） ---- */
+  .reader-owner-login {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 70;
+    font-size: 0.75rem;
+    text-align: right;
+  }
+  .reader-owner-login > a {
+    color: var(--muted-foreground);
+    opacity: 0.6;
+    text-decoration: underline dashed;
+    text-underline-offset: 3px;
+  }
+  .reader-owner-login > a:hover {
+    color: var(--accent);
+    opacity: 1;
+  }
+  .reader-owner-login.owner > a { display: none; }
+  .reader-owner-dialog {
+    margin-top: 0.375rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.375rem;
+    width: min(20rem, 80vw);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    box-shadow: 0 0.5rem 2rem rgb(0 0 0 / 0.12);
+  }
+  .reader-owner-dialog[hidden] { display: none; }
+  .reader-owner-dialog label {
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+  }
+  .reader-owner-dialog input {
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.375rem 0.5rem;
+    font-size: 0.8125rem;
+    background: var(--background);
+    color: var(--foreground);
+  }
+  .reader-owner-msg {
+    font-size: 0.75rem;
+    color: var(--accent);
+    min-height: 1em;
+  }
+  .reader-btn {
+    border: 1px solid var(--border);
+    border-radius: 0.375rem;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    background: var(--background);
+    cursor: pointer;
+  }
+  .reader-btn:hover { border-color: var(--accent); }
+  .reader-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .reader-btn-primary {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .reader-editor-actions {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex-shrink: 0;
+  }
+  .reader-dirty-badge {
+    display: inline-block;
+    margin-left: 0.5rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    color: var(--accent);
+    border: 1px solid var(--accent);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+    vertical-align: middle;
+  }
+  .reader-edit-toc {
+    width: 100%;
+    text-align: left;
+    border: 1px dashed var(--border);
+    background: transparent;
+    cursor: pointer;
+    margin-top: 0.25rem;
+  }
+  .reader-editor-banner {
+    border: 1px solid color-mix(in srgb, var(--accent) 45%, var(--border));
+    background: color-mix(in srgb, var(--accent) 8%, var(--background));
+    border-radius: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8125rem;
+    color: var(--foreground);
+    margin-bottom: 1rem;
+  }
+  .reader-editor-feedback:not(:empty) {
+    border: 1px dashed var(--border);
+    border-radius: 0.5rem;
+    padding: 0.625rem 0.875rem;
+    margin-bottom: 1rem;
+    font-size: 0.8125rem;
+  }
+  .reader-editor-feedback-error { color: var(--foreground); }
+  .reader-editor-feedback-sub {
+    color: var(--muted-foreground);
+    margin-top: 0.375rem;
+  }
+  .reader-editor-feedback-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+  }
+  .reader-editor-notice {
+    border-radius: 0.5rem;
+    padding: 0.5rem 0.875rem;
+    font-size: 0.8125rem;
+    margin-bottom: 1.25rem;
+    border: 1px solid var(--border);
+  }
+  .reader-editor-notice-success {
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+    background: color-mix(in srgb, var(--accent) 8%, var(--background));
+  }
+  .reader-editor-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .reader-editor-text {
+    width: 100%;
+    min-height: 60vh;
+    resize: vertical;
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    background: var(--background);
+    color: var(--foreground);
+  }
+  .reader-editor-preview {
+    border: 1px solid var(--border);
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    overflow-y: auto;
+    max-height: 78vh;
+  }
+  @media (max-width: 768px) {
+    .reader-editor-grid { grid-template-columns: 1fr; }
+    .reader-editor-text { min-height: 14rem; }
+  }
+
   /* ---- 移动端（FR-008）：目录折叠为抽屉，恢复正常文档流 ---- */
   @media (max-width: 768px) {
     .reader-topbar { display: flex; }

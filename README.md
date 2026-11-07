@@ -79,6 +79,22 @@ cd site-src && npm run dev
 git add book/ && git commit -m "add paper: <标题>" && git push origin master
 ```
 
+### 在线编辑（仅仓库所有者可见）
+
+阅读器支持在浏览器中直接编辑 book 内容（`book/` 下的章节 md 与 SUMMARY 目录），
+入口对其他访问者完全不可见：
+
+- **身份确认**：页脚「所有者登录」→ 输入 GitHub 细粒度 PAT（仅授予本仓库
+  `Contents: Read and write`）→ 校验为仓库所有者后出现「编辑」入口；
+  凭据仅保存在本浏览器 localStorage，可随时「退出登录」清除
+- **编辑**：纯文本 Markdown 编辑 + 实时预览（与阅读态同一渲染管线）；
+  保存以提交（commit）方式写回仓库，推送后 GitHub Pages 自动部署，约数分钟上线
+- **冲突保护**：保存基于远端最新版本校验，并发修改时不会静默覆盖，本地草稿保留
+- **注意**：`claude-code-book/` 由 GitHub Actions 每小时从书源仓库镜像同步，
+  该书的网页编辑会被下一次同步覆盖（编辑界面有警示）；日常内容维护请使用
+  手动维护目录（如 `agent-papers/`）
+- 实现与验证细节见 `specs/003-online-book-editor/`
+
 ### 书籍同步（自动镜像）
 
 书籍内容来自 [claude-code-book](https://github.com/LukeChou166/claude-code-book)。

@@ -14,12 +14,15 @@ import {
   loadLast,
   type RouteLocation,
 } from "./route";
+import * as editor from "./editor/editor";
 
 const state = {
   books: [] as Book[],
   currentBook: null as Book | null,
   toc: [] as Chapter[],
   currentChapter: null as string | null,
+  /** 当前章节原文（编辑模块进入编辑态时复用，避免二次拉取） */
+  lastRaw: null as string | null,
 };
 
 const $shelf = () => document.getElementById("bookshelf");
@@ -53,6 +56,8 @@ function bindShelf(): void {
   $shelf()?.addEventListener("click", e => {
     const btn = (e.target as HTMLElement).closest<HTMLElement>("[data-book-id]");
     if (!btn) return;
+    // 编辑模块：未保存守卫（specs/003 T017）
+    if (!editor.confirmLeave()) return;
     const book = state.books.find(b => b.id === btn.dataset.bookId);
     if (book && book.id !== state.currentBook?.id) switchBook(book);
   });
@@ -92,6 +97,8 @@ function renderToc(): void {
          title="${c.title}">${c.title}</a>`
     )
     .join("");
+  // 编辑模块：owner 态追加「编辑目录」动作（specs/003 T016）
+  editor.notifyTocRendered(list);
 }
 
 function highlightActiveToc(): void {
@@ -129,7 +136,10 @@ function showError(message: string): void {
       </div>`;
 }
 
-async function openChapter(path: string): Promise<void> {
+async function openChapter(
+  path: string,
+  notice?: { kind: "success" | "info"; html: string }
+): Promise<void> {
   const book = state.currentBook;
   const content = $content();
   if (!book || !content) return;
@@ -144,12 +154,17 @@ async function openChapter(path: string): Promise<void> {
   try {
     const raw = await fetchChapter(book.id, path);
     if (raw === null) {
+      state.lastRaw = null;
       if (chapter) chapter.state = "missing";
       showMissing(path);
       return;
     }
+    state.lastRaw = raw;
     const html = renderMarkdown(raw, book.id);
     const title = chapter?.title ?? path;
+    const noticeHtml = notice
+      ? `<div class="reader-editor-notice reader-editor-notice-${notice.kind}">${notice.html}</div>`
+      : "";
     content.innerHTML = `
       <header class="reader-content-header">
         <h1 class="reader-content-title">${title}</h1>
@@ -157,7 +172,12 @@ async function openChapter(path: string): Promise<void> {
            href="${chapterSourceUrl(book.id, path)}"
            target="_blank" rel="noopener">查看源文件 ↗</a>
       </header>
+      ${noticeHtml}
       <div class="reader-markdown">${html}</div>`;
+    // 编辑模块：owner 态注入「编辑/退出登录」动作（specs/003 T008）
+    editor.notifyChapterRendered(
+      content.querySelector(".reader-content-header") as HTMLElement | null
+    );
     if (chapter) chapter.state = "rendered";
     content.scrollTop = 0;
     // 目录抽屉自动收起（移动端, T012）
@@ -199,6 +219,16 @@ async function switchBook(book: Book, chapter?: string): Promise<void> {
 async function navigateFromHash(): Promise<void> {
   const loc = parseHash(window.location.hash);
   if (!loc) return;
+  // 编辑模块：未保存守卫——拒绝离开时回写原路由（specs/003 T017）
+  if (!editor.confirmLeave()) {
+    if (state.currentBook && state.currentChapter) {
+      replaceRoute({
+        bookId: state.currentBook.id,
+        chapter: state.currentChapter,
+      });
+    }
+    return;
+  }
   if (loc.bookId !== state.currentBook?.id) {
     const book = state.books.find(b => b.id === loc.bookId);
     if (book) {
@@ -218,6 +248,35 @@ async function init(): Promise<void> {
   root.dataset.readerInit = "1";
 
   bindShelf();
+
+  // 编辑模块（specs/003-online-book-editor）：所有者会话 + 编辑入口接线。
+  // 访客（无本地会话）时 initEditor 内部零网络请求、零编辑元素（FR-001）。
+  await editor.initEditor({
+    getCurrentBookId: () => state.currentBook?.id ?? null,
+    getCurrentChapterPath: () => state.currentChapter,
+    getCurrentChapterRaw: () => state.lastRaw,
+    reopenChapter: notice => {
+      if (state.currentBook && state.currentChapter) {
+        void openChapter(state.currentChapter, notice);
+      }
+    },
+    reloadToc: async () => {
+      const book = state.currentBook;
+      if (!book) return;
+      try {
+        state.toc = await loadToc(book);
+      } catch {
+        /* 重载失败保留旧目录 */
+      }
+      renderToc();
+    },
+    refreshChrome: () => {
+      renderToc();
+      editor.notifyChapterRendered(
+        document.querySelector(".reader-content-header") as HTMLElement | null
+      );
+    },
+  });
 
   // 移动端目录抽屉（T012）
   document.getElementById("reader-menu-btn")?.addEventListener("click", () => {
@@ -292,6 +351,8 @@ function bindHashLinkInterceptor(): void {
       e.preventDefault();
       e.stopPropagation();
       if (window.location.hash === href) return;
+      // 编辑模块：未保存守卫（specs/003 T017）——在导航赋值前拦截
+      if (!editor.confirmLeave()) return;
       window.location.hash = href; // 原生赋值 → 触发 hashchange → navigateFromHash
     },
     true
