@@ -39,7 +39,8 @@ cd site-src && npm run dev
 ├── book/                      # 知识分享（多书）
 │   ├── books.json             # 书籍清单（新增书在此登记）
 │   ├── index.html             # 旧 /book/ 入口的兼容跳转页
-│   └── claude-code-book/      # 自动镜像同步的书籍（SUMMARY.md + 章节 md）
+│   ├── claude-code-book/      # 自动镜像同步的书籍（SUMMARY.md + 章节 md）
+│   └── agent-papers/          # Agent 论文翻译/笔记（手动维护，见下文）
 ├── legacy/                    # 旧版博客整站归档（只读）
 │   └── book/                  # book 的兜底镜像
 ├── site-src/                  # Astro 源码工程（阅读器源码 src/scripts/reader/）
@@ -58,6 +59,25 @@ cd site-src && npm run dev
    `[章节名](./章节.md)` 链接列表；没有链接清单也可在 books.json 写 `chapters`）
 2. 在 [`book/books.json`](book/books.json) 登记一条（id 必须等于目录名）
 3. 完成——刷新首页即出现在书架，无需改任何代码、无需重新构建
+
+> 注意：即使目录由 `books.json` 的 `chapters` 清单提供章节，`SUMMARY.md` 也必须
+> 存在——阅读器会先对该文件发 HEAD 请求做校验，404 会直接跳过该书
+> （见 `site-src/src/scripts/reader/app.ts` 的 `validateBook`）。
+
+### 给已有书籍添加章节（以 agent-papers 为例）
+
+`book/agent-papers/` 是手动维护的论文翻译/笔记集，添加一篇论文的步骤：
+
+1. 把论文 md 放进 `book/agent-papers/`（如 `OpenHands_zh.md`）
+2. 在 `book/agent-papers/SUMMARY.md` 追加一行链接：
+   `- [论文标题](文件名.md)`（目录按行内顺序展示，无需改 `books.json`）
+3. 首次添加新书目录时，还需在 `book/books.json` 登记（id = 目录名，
+   `defaultChapter` 指向首篇，`order` 控制书架排序）
+4. 提交推送即上线（阅读器运行时读取 md，不用重新构建）：
+
+```bash
+git add book/ && git commit -m "add paper: <标题>" && git push origin master
+```
 
 ### 书籍同步（自动镜像）
 
